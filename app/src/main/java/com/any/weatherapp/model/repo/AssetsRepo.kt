@@ -13,9 +13,13 @@ import java.util.*
 
 class AssetsRepo : IAssetsRepo {
 
-    override fun getAllTowns(): List<Town> {
+    override fun getAllTowns(): List<Town> = readTowns("city.list.csv")
+
+    fun getPreActivatedTowns(): List<Town> = readTowns("first.city.list.csv")
+
+    private fun readTowns(filename: String): List<Town> {
         val list = LinkedList<Town>()
-        App.appContext.assets.open("city.list.csv")
+        App.appContext.assets.open(filename)
                 .bufferedReader()
                 .readText().split("\n").dropLastWhile { it.trim().isEmpty() }
                 .forEach {

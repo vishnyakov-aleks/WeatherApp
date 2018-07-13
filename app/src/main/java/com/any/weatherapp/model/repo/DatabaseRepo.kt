@@ -43,7 +43,7 @@ class DatabaseRepo: SQLiteOpenHelper(App.appContext, DB_NAME, null, DB_VERSION),
     }
 
     fun postInitDatabase() {
-
+        AssetsRepo().getPreActivatedTowns().forEach { activateTown(it) }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
