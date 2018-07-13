@@ -5,6 +5,7 @@ import com.any.weatherapp.model.exception.WeatherLoadFailedException
 import com.any.weatherapp.model.repo.DatabaseRepo
 import com.any.weatherapp.model.repo.RemoteRepo
 import com.any.weatherapp.utils.DateTimeUtils.getSecFromMillis
+import com.any.weatherapp.utils.Prefs
 import com.any.weatherapp.view.MainActivityView
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -79,6 +80,7 @@ class MainActivityPresenter: MvpPresenter<MainActivityView>() {
         launch (UI) {
             viewState.showLoading(false)
             withContext(DefaultDispatcher) {databaseRepo.postInitDatabase()}
+            Prefs.databaseInitialized = true
             refreshAll(false)
         }
     }
