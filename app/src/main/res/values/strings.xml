@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="connection_error">Подключение к серверу не установлено</string>
+    <string name="not_access_to_data">Нет доступа к данным</string>
+    <string name="search">Search</string>
+    <string name="choose_towns">Выберите города</string>
+</resources>
