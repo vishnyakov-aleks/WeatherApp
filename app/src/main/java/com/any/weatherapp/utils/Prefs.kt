@@ -9,7 +9,7 @@ import com.any.weatherapp.App
  */
 object Prefs {
     private const val DATABASE_INITIALIZED = "DATABASE_INITIALIZED"
-    private val sp = App.appContext.getSharedPreferences(this.toString(), MODE_PRIVATE)
+    private val sp = App.appContext.getSharedPreferences(this::class.java.name, MODE_PRIVATE)
 
 
     var databaseInitialized: Boolean
