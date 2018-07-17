@@ -13,6 +13,7 @@
 - Pure SqlOpenHelper
 - OkHttp
 - Retrofit2
+- Kodein as DI framework
 
 
-APK included to root dir
+last version of .APK is included to root dir
