@@ -9,7 +9,7 @@ import com.any.weatherapp.model.pojo.Weather
  */
 interface IDatabaseRepo {
 
-    fun getCachedWeather(townId: Int): List<Weather>
+    fun getCachedWeather(townId: Int): ArrayList<Weather>
 
     fun addWeather(weather: Weather): Int
 
@@ -20,4 +20,6 @@ interface IDatabaseRepo {
     fun activateTown(town: Town)
 
     fun deactivateTown(townId: Int)
+
+    fun initializeActivatedTownsAtStart()
 }

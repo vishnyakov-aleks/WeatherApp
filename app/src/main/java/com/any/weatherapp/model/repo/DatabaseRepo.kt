@@ -42,7 +42,7 @@ class DatabaseRepo: SQLiteOpenHelper(App.appContext, DB_NAME, null, DB_VERSION),
 
     }
 
-    fun postInitDatabase() {
+    override fun initializeActivatedTownsAtStart() {
         AssetsRepo().getPreActivatedTowns().forEach { activateTown(it) }
     }
 

@@ -8,6 +8,6 @@ import com.any.weatherapp.model.pojo.Weather
  */
 interface IRemoteRepo {
 
-    fun requestTownWeather(townId: Int): List<Weather>
+    fun requestTownWeather(townId: Int): ArrayList<Weather>
 
 }

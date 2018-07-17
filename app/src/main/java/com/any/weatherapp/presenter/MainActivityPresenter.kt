@@ -1,9 +1,10 @@
 package com.any.weatherapp.presenter
 
 import android.util.Log
+import com.any.weatherapp.App
 import com.any.weatherapp.model.exception.WeatherLoadFailedException
-import com.any.weatherapp.model.repo.DatabaseRepo
-import com.any.weatherapp.model.repo.RemoteRepo
+import com.any.weatherapp.model.repo.imp.IDatabaseRepo
+import com.any.weatherapp.model.repo.imp.IRemoteRepo
 import com.any.weatherapp.utils.DateTimeUtils.getSecFromMillis
 import com.any.weatherapp.utils.Prefs
 import com.any.weatherapp.view.MainActivityView
@@ -13,6 +14,7 @@ import kotlinx.coroutines.experimental.DefaultDispatcher
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
+import org.kodein.di.generic.instance
 import java.util.concurrent.TimeUnit
 
 /**
@@ -23,8 +25,8 @@ import java.util.concurrent.TimeUnit
 @InjectViewState
 class MainActivityPresenter: MvpPresenter<MainActivityView>() {
 
-    private val remoteRepo = RemoteRepo()
-    private val databaseRepo = DatabaseRepo()
+    private val remoteRepo: IRemoteRepo by App.kodein.instance()
+    private val databaseRepo: IDatabaseRepo by App.kodein.instance()
     private val CACHED_TIME = TimeUnit.MINUTES.toSeconds(5)
 
     fun refreshAll(animateLoading: Boolean) {
@@ -79,7 +81,7 @@ class MainActivityPresenter: MvpPresenter<MainActivityView>() {
     fun initDatabase() {
         launch (UI) {
             viewState.showLoading(false)
-            withContext(DefaultDispatcher) {databaseRepo.postInitDatabase()}
+            withContext(DefaultDispatcher) {databaseRepo.initializeActivatedTownsAtStart()}
             Prefs.databaseInitialized = true
             refreshAll(false)
         }
