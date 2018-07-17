@@ -15,7 +15,7 @@ class AssetsRepo : IAssetsRepo {
 
     override fun getAllTowns(): List<Town> = readTowns("city.list.csv")
 
-    fun getPreActivatedTowns(): List<Town> = readTowns("first.city.list.csv")
+    override fun getPreActivatedTowns(): List<Town> = readTowns("first.city.list.csv")
 
     private fun readTowns(filename: String): List<Town> {
         val list = LinkedList<Town>()

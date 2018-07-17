@@ -3,6 +3,7 @@ package com.any.weatherapp.presenter
 import android.util.Log
 import com.any.weatherapp.App
 import com.any.weatherapp.model.exception.WeatherLoadFailedException
+import com.any.weatherapp.model.repo.imp.IAssetsRepo
 import com.any.weatherapp.model.repo.imp.IDatabaseRepo
 import com.any.weatherapp.model.repo.imp.IRemoteRepo
 import com.any.weatherapp.utils.DateTimeUtils.getSecFromMillis
@@ -27,6 +28,7 @@ class MainActivityPresenter: MvpPresenter<MainActivityView>() {
 
     private val remoteRepo: IRemoteRepo by App.kodein.instance()
     private val databaseRepo: IDatabaseRepo by App.kodein.instance()
+    private val assetsRepo: IAssetsRepo by App.kodein.instance()
     private val CACHED_TIME = TimeUnit.MINUTES.toSeconds(5)
 
     fun refreshAll(animateLoading: Boolean) {
@@ -63,13 +65,6 @@ class MainActivityPresenter: MvpPresenter<MainActivityView>() {
                 remoteRepo.requestTownWeather(townId)
             }
             newWeatherList.forEach { databaseRepo.addWeather(it) }
-
-            //post only from database repository
-            /*withContext(DefaultDispatcher) {
-                remoteRepo.requestTownWeather(townId)
-            }.forEach { databaseRepo.addWeather(it) }
-            val newWeatherList = databaseRepo.getCachedWeather(townId)*/
-
             viewState.townWeatherUpdated(townId, newWeatherList)
         } catch (we: WeatherLoadFailedException) {
             viewState.townWeatherUpdateFailed(we)
@@ -81,7 +76,11 @@ class MainActivityPresenter: MvpPresenter<MainActivityView>() {
     fun initDatabase() {
         launch (UI) {
             viewState.showLoading(false)
-            withContext(DefaultDispatcher) {databaseRepo.initializeActivatedTownsAtStart()}
+            withContext(DefaultDispatcher) {
+                val firstActivatedTowns =  assetsRepo.getPreActivatedTowns()
+                databaseRepo.initializeActivatedTownsAtStart(firstActivatedTowns)
+            }
+
             Prefs.databaseInitialized = true
             refreshAll(false)
         }

@@ -21,5 +21,5 @@ interface IDatabaseRepo {
 
     fun deactivateTown(townId: Int)
 
-    fun initializeActivatedTownsAtStart()
+    fun initializeActivatedTownsAtStart(townList: List<Town>)
 }

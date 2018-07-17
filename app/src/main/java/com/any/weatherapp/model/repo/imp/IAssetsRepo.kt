@@ -10,4 +10,6 @@ interface IAssetsRepo {
 
     fun getAllTowns(): List<Town>
 
+    fun getPreActivatedTowns(): List<Town>
+
 }

@@ -42,8 +42,8 @@ class DatabaseRepo: SQLiteOpenHelper(App.appContext, DB_NAME, null, DB_VERSION),
 
     }
 
-    override fun initializeActivatedTownsAtStart() {
-        AssetsRepo().getPreActivatedTowns().forEach { activateTown(it) }
+    override fun initializeActivatedTownsAtStart(townList: List<Town>) {
+        townList.forEach { activateTown(it) }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
